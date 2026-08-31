@@ -325,16 +325,6 @@ static int var_top_index(const char *name) {
     return -1;
 }
 
-static int var_count(const char *name) {
-    Var *v = var_find(name);
-
-    if (!v) return getenv(name) ? 1 : 0;
-
-    int n = 0;
-    for (int i = 0; i < v->nitems; i++) if (v->items[i]) n++;
-    return n;
-}
-
 static void var_unset_index(const char *name, int idx) {
     Var *v = var_find(name);
     if (!v || idx < 0 || idx >= v->nitems) return;
