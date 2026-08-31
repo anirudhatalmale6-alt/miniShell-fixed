@@ -1197,3 +1197,229 @@ ok
 @rc 0
 end
 @@
+@name ar1
+@rc 0
+one two three
+@@
+@name ar2
+@rc 0
+[one two three]
+@@
+@name ar3
+@rc 0
+[one two three]
+@@
+@name ar4
+@rc 0
+3 3 3
+@@
+@name ar5
+@rc 0
+[one] [one] [one]
+@@
+@name ar6
+@rc 0
+[]
+@@
+@name ar7
+@rc 0
+z y
+@@
+@name ar8
+@rc 0
+4 [one two three six]
+@@
+@name ar9
+@rc 0
+[0 1 2 5]
+@@
+@name ar10
+@rc 0
+[z y]
+@@
+@name ar11
+@rc 0
+[p q r s] 4
+@@
+@name ar12
+@rc 0
+helloworld
+@@
+@name ar13
+@rc 0
+2
+@@
+@name ar14
+@rc 0
+[a b]
+[c]
+@@
+@name ar15
+@rc 0
+[a]
+[b]
+[c]
+@@
+@name ar16
+@rc 0
+2 [1 3] [0 2]
+@@
+@name ar17
+@rc 0
+0 []
+@@
+@name ar18
+@rc 0
+15 24
+@@
+@name ar19
+@rc 0
+y z
+@@
+@name ar20
+@rc 0
+[b c] [c d]
+@@
+@name ar21
+@rc 0
+[one] [one] [one]
+@@
+@name ar22
+@rc 0
+0
+@@
+@name ar23
+@rc 0
+[a:b:c]
+[a b c]
+@@
+@name ar24
+@rc 0
+[a b c]
+@@
+@name ar25
+@rc 0
+1 [z] [2]
+@@
+@name ar26
+@rc 0
+[] 0
+@@
+@name ar27
+@rc 0
+<a>
+<b c>
+<d>
+@@
+@name ar28
+@rc 0
+[x] [def]
+@@
+@name ar29
+@rc 0
+3 b
+@@
+@name ar30
+@rc 0
+1 [*.nosuchglob-xyz]
+@@
+@name ar31
+@rc 0
+[1 X 3]
+@@
+@name ar32
+@rc 0
+[1 2X 3]
+@@
+@name ar33
+@rc 0
+[a b c]
+0
+@@
+@name ar34
+@rc 0
+2
+3
+@@
+@name ar35
+@rc 0
+60
+@@
+@name ar36
+@rc 0
+x-y
+@@
+@name ar37
+@rc 0
+matched
+@@
+@name ar38
+@rc 0
+a b
+@@
+@name ar39
+@rc 0
+0=a
+1=b
+2=c
+@@
+@name ar40
+@rc 0
+1 2 3 
+@@
+@name ar41
+@rc 0
+3
+@@
+@name ar42
+@rc 0
+2 []
+@@
+@name ar43
+@rc 0
+[a bc d]
+@@
+@name ar44
+@rc 0
+b c
+@@
+@name ar46
+@rc 0
+cdef cde ef
+@@
+@name ar47
+@rc 0
+ []
+@@
+@name ar48
+@rc 0
+deep
+@@
+@name ar49
+@rc 0
+r
+@@
+@name ar50
+@rc 0
+5 [1 2 3 4 5]
+@@
+@name ar51
+@rc 0
+2 [t]
+@@
+@name ar52
+@rc 0
+[b c]
+@@
+@name ar53
+@rc 0
+[inside]
+@@
+@name ar54
+@rc 0
+set
+@@
+@name ar55
+@rc 0
+6
+@@

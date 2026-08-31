@@ -1183,3 +1183,273 @@ f() { echo "$0"; }; f >/dev/null; echo ok
 @ref dash
 echo end
 @@
+@name ar1
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two three); echo ${a[0]} ${a[1]} ${a[2]}
+@@
+@name ar2
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two three); echo "[${a[@]}]"
+@@
+@name ar3
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two three); echo "[${a[*]}]"
+@@
+@name ar4
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two three); echo ${#a[@]} ${#a[*]} ${#a[0]}
+@@
+@name ar5
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two); echo "[$a]" "[${a}]" "[${a[0]}]"
+@@
+@name ar6
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one); echo "[${a[9]}]"
+@@
+@name ar7
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(x y z); echo ${a[-1]} ${a[-2]}
+@@
+@name ar8
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two three); a[5]=six; echo ${#a[@]} "[${a[@]}]"
+@@
+@name ar9
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two three); a[5]=six; echo "[${!a[@]}]"
+@@
+@name ar10
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+b=(x y); b=z; echo "[${b[@]}]"
+@@
+@name ar11
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+c=(p q); c+=(r s); echo "[${c[@]}]" ${#c[@]}
+@@
+@name ar12
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+d=hello; d+=world; echo $d
+@@
+@name ar13
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+e=("a b" c); echo ${#e[@]}
+@@
+@name ar14
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+e=("a b" c); for i in "${e[@]}"; do echo "[$i]"; done
+@@
+@name ar15
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+e=("a b" c); for i in ${e[@]}; do echo "[$i]"; done
+@@
+@name ar16
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+f=(1 2 3); unset f[1]; echo ${#f[@]} "[${f[@]}]" "[${!f[@]}]"
+@@
+@name ar17
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+g=(); echo ${#g[@]} "[${g[@]}]"
+@@
+@name ar18
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+h=(4 5 6); echo $((h[1]+10)) $((h[0]*h[2]))
+@@
+@name ar19
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+i=(w x y z); n=2; echo ${i[n]} ${i[n+1]}
+@@
+@name ar20
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+k=(a b c d); echo "[${k[@]:1:2}]" "[${k[@]:2}]"
+@@
+@name ar21
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+m=(one); echo "[${m[@]}]" "[${m[0]}]" "[$m]"
+@@
+@name ar22
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+echo ${#nosucharray[@]}
+@@
+@name ar23
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+n=(a b c); IFS=:; echo "[${n[*]}]"; unset IFS; echo "[${n[*]}]"
+@@
+@name ar24
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+p=(a b c); q="${p[@]}"; echo "[$q]"
+@@
+@name ar25
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+r=(); r[2]=z; echo ${#r[@]} "[${r[@]}]" "[${!r[@]}]"
+@@
+@name ar26
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+s=(a b c); s=(); echo "[${s[@]}]" ${#s[@]}
+@@
+@name ar27
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+u=(a "b c" d); for x in "${u[@]}"; do echo "<$x>"; done
+@@
+@name ar28
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+v=(x); echo "[${v[0]:-def}]" "[${v[9]:-def}]"
+@@
+@name ar29
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+w=($(echo a b c)); echo ${#w[@]} ${w[1]}
+@@
+@name ar30
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+y=(*.nosuchglob-xyz); echo ${#y[@]} "[${y[0]}]"
+@@
+@name ar31
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(1 2 3); a[1]=X; echo "[${a[@]}]"
+@@
+@name ar32
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(1 2 3); a[1]+=X; echo "[${a[@]}]"
+@@
+@name ar33
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(a b c); echo "[${a[@]}]" ; unset a; echo ${#a[@]}
+@@
+@name ar34
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+f() { local a=(1 2); echo ${#a[@]}; }; a=(9 8 7); f; echo ${#a[@]}
+@@
+@name ar35
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(10 20 30); t=0; for v in "${a[@]}"; do t=$((t+v)); done; echo $t
+@@
+@name ar36
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(x y); echo "${a[0]}-${a[1]}"
+@@
+@name ar37
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(one two); case ${a[1]} in two) echo matched;; esac
+@@
+@name ar38
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(aa bb); echo "${a[0]#a}" "${a[1]%b}"
+@@
+@name ar39
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(a b c); i=0; while [ $i -lt ${#a[@]} ]; do echo "$i=${a[$i]}"; i=$((i+1)); done
+@@
+@name ar40
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(3 1 2); echo "${a[@]}" | tr " " "\n" | sort | tr "\n" " "; echo
+@@
+@name ar41
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+declare_test=(1 2 3) ; echo ${#declare_test[@]}
+@@
+@name ar42
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=("" x); echo ${#a[@]} "[${a[0]}]"
+@@
+@name ar43
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(a b); b=(c d); echo "[${a[@]}${b[@]}]"
+@@
+@name ar44
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(a b c); echo "${a[@]: -2}"
+@@
+@name ar46
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+v=abcdef; echo "${v:2}" "${v:2:3}" "${v: -2}"
+@@
+@name ar47
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+v=abcdef; echo "${v:0:0}" "[${v:9}]"
+@@
+@name ar48
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+x=y; y=deep; echo "${!x}"
+@@
+@name ar49
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(p q r); echo "${a[$((1+1))]}"
+@@
+@name ar50
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(1 2); a+=(3); a+=(4 5); echo ${#a[@]} "[${a[@]}]"
+@@
+@name ar51
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+set -- s t; a=("$@"); echo ${#a[@]} "[${a[1]}]"
+@@
+@name ar52
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(a b c); echo "[${a[*]:1}]"
+@@
+@name ar53
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+f() { a=(inside); }; a=(outside); f; echo "[${a[@]}]"
+@@
+@name ar54
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(x); echo ${a[0]:+set} ${a[1]:+set}
+@@
+@name ar55
+@ref bash
+@note arrays are a bash extension; dash has none, so bash is the reference
+a=(1 2 3); n=${#a[@]}; echo $((n*2))
+@@

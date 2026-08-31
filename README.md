@@ -22,8 +22,13 @@ works.
 Expansion: `$var`, `${var}`, `${var:-word}` and the rest of the `:- - := =
 :+ + :? ? # ## % %%` family, `${#var}`, `$@`, `$*`, `$#`, `$?`, `$$`,
 `$!`, `$0`..`$9`, command substitution `$( )` and backticks, arithmetic
-`$(( ))`, `~`, globbing `* ? [a-z] [!abc]`, quoting, and field splitting
-that honours `IFS`.
+`$(( ))`, `~`, globbing `* ? [a-z] [!abc]`, slicing `${v:2:3}`, indirect
+`${!v}`, quoting, and field splitting that honours `IFS`.
+
+Arrays: `a=(one two)`, `a+=(three)`, `a[7]=x`, `${a[0]}`, `${a[-1]}`,
+`${a[@]}`, `${a[*]}`, `${#a[@]}`, `${!a[@]}`, `${a[@]:1:2}`, `unset a[1]`,
+`local a=(...)`, and subscripts inside `$(( ))`. Sparse indices behave
+like bash's.
 
 Builtins: `cd`, `pwd`, `echo`, `printf`, `export`, `unset`, `test` / `[`,
 `true`, `false`, `:`, `read`, `shift`, `set` (`--`, `-e`, `-x`, `-u`),
@@ -36,16 +41,16 @@ The interactive prompt reads until the command is complete, so multi-line
 
 ## Tests
 
-The expectations were produced by running `dash` (and `bash` for four
-cases where dash's exit codes are its own), not by running miniShell and
-recording what it printed — so the suite can fail, and does on the version
+The expectations were produced by running `dash` — and `bash` for the
+array cases, which dash has no equivalent of, plus four where dash's exit
+codes are its own — not by running miniShell and recording what it printed — so the suite can fail, and does on the version
 before the fixes.
 
 ```sh
-make check      # 287 cases against tests/expected.txt
+make check      # 341 cases against tests/expected.txt
 make difftest   # same cases, compared against dash/bash live
 make asan       # the suite under ASan + UBSan + leak detection
-make fuzz       # 1200 malformed inputs; nothing may crash, hang or leak
+make fuzz       # 1700 malformed inputs; nothing may crash, hang or leak
 make sample     # run test.sh
 ```
 
@@ -55,4 +60,4 @@ make sample     # run test.sh
 
 `FIXES.md` records what was broken before, how each fault was found, and
 what is deliberately not implemented (`trap`, job control, `getopts`,
-arrays, `[[ ]]`).
+associative arrays, `[[ ]]`).

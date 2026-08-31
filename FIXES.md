@@ -8,14 +8,14 @@ Nothing below was judged by eye. Every expectation in `tests/` was produced
 by running a real shell — `dash`, or `bash` for the handful of cases where
 dash's exit codes are its own — never by running miniShell and writing down
 what it printed. Against the original binary the suite reports
-**139 passed, 148 failed**; against this one, **287 passed, 0 failed**.
+**140 passed, 201 failed**; against this one, **341 passed, 0 failed**.
 
 ```
 make          build
-make check    287 cases against recorded dash/bash output
+make check    341 cases against recorded dash/bash output
 make difftest same cases, compared against dash/bash live
 make asan     the whole suite under ASan + UBSan + leak detection
-make fuzz     1200 malformed/adversarial inputs, nothing may crash or hang
+make fuzz     1700 malformed/adversarial inputs, nothing may crash or hang
 ```
 
 ---
@@ -223,6 +223,64 @@ clean. The original reports leaks on all 287.
 
 ---
 
+## Arrays
+
+Added after the first round. dash has no arrays at all, so **bash is the
+reference** for all 54 of these cases, and they are marked as such in
+`tests/cases.txt`. On the build from before this change, 52 of the 54
+fail.
+
+```sh
+a=(one two three)          # literal, elements go through full expansion
+a+=(four)                  # append
+a[7]=eight                 # by index, leaves the array sparse
+a[0]+=x                    # append to one element
+local a=(1 2)              # scoped to the function
+unset a[1]                 # removes the element, not the array
+
+${a[0]}  ${a[-1]}  ${a[i+1]}      # index is an arithmetic expression
+${a[@]}  ${a[*]}                  # all elements; "${a[@]}" is one field each
+${#a[@]}  ${#a[0]}                # count of set elements / length of one
+${!a[@]}                          # the indices that are set
+${a[@]:1:2}  ${v:2:3}  ${v: -2}   # slicing, arrays and strings
+$(( a[1] + total ))               # subscripts inside arithmetic
+${!name}                          # indirect expansion
+```
+
+The awkward corners are covered because they are where a shell usually
+gets arrays wrong:
+
+* **Sparse is real.** `f=(1 2 3); unset f[1]` leaves `${#f[@]}` at 2 and
+  `${!f[@]}` as `0 2` — the count is of *set* elements, not of the span.
+* **A scalar assignment to an array touches element 0 only.**
+  `b=(x y); b=z` gives `z y`, which surprises people but is what bash does.
+* **`$a` is `${a[0]}`**, so a plain variable is just a one-element array
+  and nothing else in the shell has to know the difference.
+* **`"${a[@]}"` splits into fields, `"${a[*]}"` joins with `IFS[0]`** —
+  the same machinery as `"$@"`, reused.
+* **Elements are expanded like any other word**, so `a=($(echo x y))` is
+  two elements and `a=(*.c)` globs.
+* **`local a=(1 2)` restores the whole vector on return**, not just
+  element 0.
+* **Arrays are not exported.** bash refuses to put them in the
+  environment and so does this.
+
+Two deliberate differences from bash, both stated rather than hidden:
+
+* Elements live in a dense vector, so the index is capped at
+  **65535** and a larger one is an error. bash stores arrays as a list
+  and has no practical limit. Without the cap `a[999999999]=x` tried to
+  allocate eight gigabytes — the fuzzer found it.
+* `${a[@]:1:-1}` (a negative *length* on an array slice) is an error in
+  bash. Here it trims from the end, the same as it does for a string.
+  The string form `${v:1:-1}` behaves identically in both.
+
+`g=()` had to be told apart from `g() { ...; }` — both are a word
+followed by `()`. A function name cannot contain `=`, so the assignment
+test decides it.
+
+---
+
 ## Four places where the reference shells disagree
 
 These are recorded from bash (with a `@note` in `tests/cases.txt`), because
@@ -242,7 +300,8 @@ dash is alone:
 ## Not implemented
 
 `trap`, job control (`jobs`, `fg`, `bg`, `%1`), `getopts`, `select`,
-process substitution, arrays, `${x/a/b}`, `[[ ]]`, `exec cmd` (as opposed
+process substitution, associative arrays (`declare -A`), `${x/a/b}`,
+`[[ ]]`, `exec cmd` (as opposed
 to `exec` with only redirections, which works), `$-`, `ulimit`, `umask`,
 `times`, `hash`, `type`, `command`, `alias`. None of these are needed by
 an ordinary script; say the word if any of them matter.
